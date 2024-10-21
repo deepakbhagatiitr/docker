@@ -1,0 +1,19 @@
+services:
+  mysqldb:
+    image: "mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+    container_name: mysqldb
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+  pythonapp:
+    build: ./
+    container_name: pythonapp
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
