@@ -6,10 +6,10 @@ app = Flask(__name__)
 # Database connection setup
 def get_db_connection():
     return psycopg2.connect(
-        host='localhost',  # The service name of PostgreSQL container in Docker Compose
+        host='db',  # The service name of PostgreSQL container in Docker Compose
         user='root',
         password='root',
-        dbname='db'
+        dbname='database'
     )
 
 def create_tables():
