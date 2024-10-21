@@ -1,2 +1,2 @@
-flask
-mysqlclient
+Flask
+psycopg2-binary

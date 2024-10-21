@@ -1,15 +1,15 @@
 from flask import Flask, request, render_template, redirect, url_for
-import MySQLdb
+import psycopg2
 
 app = Flask(__name__)
 
 # Database connection setup
 def get_db_connection():
-    return MySQLdb.connect(
-        host='mysqldb',  # The service name of MySQL container in Docker Compose
+    return psycopg2.connect(
+        host='db',  # The service name of PostgreSQL container in Docker Compose
         user='root',
         password='root',
-        db='db'
+        dbname='db'
     )
 
 def create_tables():
@@ -17,7 +17,7 @@ def create_tables():
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+            id SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
             email VARCHAR(100) NOT NULL
         )
