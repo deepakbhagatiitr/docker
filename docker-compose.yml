@@ -1,5 +1,5 @@
 services:
-  db:
+  postgresdb:
     image: "postgres:latest"
     container_name: postgresdb
     environment:
