@@ -1,18 +1,17 @@
-version: "3"
 services:
-  db:
-    image: postgres
+  postgresdb:
+    image: "postgres:latest"
     container_name: postgresdb
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin"]
-      interval: 10s
-      retries: 5
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - app-network
 
   pythonapp:
     build: ./
@@ -22,3 +21,9 @@ services:
         condition: service_healthy
     ports:
       - "5000:5000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
